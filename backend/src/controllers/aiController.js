@@ -1,10 +1,18 @@
 // src/controllers/aiController.js
 const Groq = require('groq-sdk');
 
-// Initialize Groq
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-});
+let groq = null;
+function getGroqClient() {
+  if (!groq) {
+    if (!process.env.GROQ_API_KEY) {
+      const err = new Error('GROQ_API_KEY is not configured');
+      err.status = 500;
+      throw err;
+    }
+    groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return groq;
+}
 
 const SYSTEM_PROMPT = `You are a friendly and supportive AI productivity coach for Prodify, a task management and productivity app.
 
