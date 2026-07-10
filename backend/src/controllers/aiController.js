@@ -71,7 +71,7 @@ const chat = async (req, res) => {
     ];
 
     // Call Groq API with Llama model (super fast!)
-    const completion = await groq.chat.completions.create({
+    const completion = await getGroqClient().chat.completions.create({
       messages: messages,
       model: 'llama-3.3-70b-versatile',
       temperature: 0.7,
